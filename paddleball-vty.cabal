@@ -1,0 +1,35 @@
+cabal-version: 3.0
+name:          paddleball-vty
+version:       0.1.0.0
+license:       ISC
+license-file:  LICENSE
+copyright:     Kevin Mullins 2022
+maintainer:    kevin@pnotequalnp.com
+author:        Kevin Mullins
+tested-with:   ghc ==8.10.7 || ==9.2.1
+homepage:      https://github.com/pnotequalnp/paddleball-vty
+bug-reports:   https://github.com/pnotequalnp/paddleball-vty/issues
+synopsis:      Simple TUI Paddlebal
+description:
+    A basic paddleball game built with Yampa and Vty as a graphics backend
+
+category:      FRP, Game
+
+source-repository head
+    type:     git
+    location: https://github.com/pnotequalnp/paddleball-vty
+
+executable paddleball-vty
+    main-is:            Main.hs
+    hs-source-dirs:     app
+    default-language:   Haskell2010
+    default-extensions:
+        Arrows BlockArguments ImportQualifiedPost LambdaCase NamedFieldPuns
+        TypeApplications
+
+    ghc-options:        -threaded -Wall -Wcompat -Werror=incomplete-patterns
+    build-depends:
+        base >=4.14 && <5.0,
+        vty ^>=5.33,
+        Yampa ^>=0.13.3,
+        yampa-vty ^>=0.1

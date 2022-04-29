@@ -1,0 +1,92 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1644229661,
+        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1644229661,
+        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1646776330,
+        "narHash": "sha256-nqr6ROq4ZXKkGoYXLTwZ1Vh99INnalL8F7DKquofOBw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c8b5c9526415905e90e3a64586ebecc55a2827dd",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "master",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1646776330,
+        "narHash": "sha256-nqr6ROq4ZXKkGoYXLTwZ1Vh99INnalL8F7DKquofOBw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c8b5c9526415905e90e3a64586ebecc55a2827dd",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "master",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "yampa-vty": "yampa-vty"
+      }
+    },
+    "yampa-vty": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1651264072,
+        "narHash": "sha256-NZkFl0jcpdGefC2f1RODAeL/YpAM6H1IMH0uVFzMZ14=",
+        "owner": "pnotequalnp",
+        "repo": "yampa-vty",
+        "rev": "b7f6893170371bcc5baf14980c06aa2dd5eb574a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pnotequalnp",
+        "repo": "yampa-vty",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
