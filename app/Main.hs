@@ -5,11 +5,13 @@ import Data.Functor (($>))
 import FRP.Yampa
 import FRP.Yampa.Vty (Command (..), runVty)
 import Graphics.Vty qualified as Vty
+import System.Random
 
 main :: IO ()
 main = do
   vty <- Vty.standardIOConfig >>= Vty.mkVty
-  runVty vty (paddleBall (5 * pi / 3) 0.3)
+  theta <- randomRIO (4 * pi / 3, 5 * pi / 3)
+  runVty vty (paddleBall theta 0.3)
 
 data Board = Board
   { ball :: !(Float, Float)
