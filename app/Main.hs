@@ -77,7 +77,7 @@ paddleImpactAngle :: Float -> Float
 paddleImpactAngle x = (0.8 * (x - 0.5) + 1.5) * pi
 
 render :: (Int, Int) -> Board -> Vty.Picture
-render (height, width) Board {ball = (x, y), paddle = (l, r)} = Vty.picForLayers [ballImage, paddleImage]
+render (height, width) Board {ball = (x, y), paddle = (l, r)} = Vty.picForLayers [paddleImage, ballImage]
   where
     ballX = round (fromIntegral width * x)
     ballY = round (fromIntegral height * y)
