@@ -11,16 +11,26 @@ import Control.Applicative ((<|>))
 main :: IO ()
 main = do
   vty <- Vty.standardIOConfig >>= Vty.mkVty
+  x <- randomRIO (0.2, 0.8)
+  y <- randomRIO (0.2, 0.8)
   theta <- randomRIO (4 * pi / 3, 5 * pi / 3)
-  runVty vty 60 (paddleBall theta 0.3)
+  runVty vty 60 (paddleBall (x, y) theta 0.3)
 
 data Board = Board
   { ball :: !(Float, Float)
   , paddle :: !(Float, Float)
   }
 
-paddleBall :: Float -> Float -> SF (Event Vty.Event) (Event Vty.Picture, Event Command)
-paddleBall theta v = proc inp -> do
+paddleBall ::
+  -- | Initial ball position
+  (Float, Float) ->
+  -- | Initial ball angle
+  Float ->
+  -- | Initial ball velocity
+  Float ->
+  -- | Paddleball game
+  SF (Event Vty.Event) (Event Vty.Picture, Event Command)
+paddleBall (x, y) theta v = proc inp -> do
   dims <- hold (200, 200) -< inp >>= \case
     Vty.EvResize w h -> Event (h, w)
     _ -> NoEvent
@@ -33,8 +43,8 @@ paddleBall theta v = proc inp -> do
   rec let board = Board { ball = (ballX, ballY), paddle = (paddleL, paddleR) }
           paddleImpactTheta = paddleImpactAngle $ (ballX - paddleL)  / (paddleR - paddleL)
 
-      ballX <- (+ 0.2) ^<< integral -< xVel
-      ballY <- (+ 0.2) ^<< integral -< yVel
+      ballX <- (+ x) ^<< integral -< xVel
+      ballY <- (+ y) ^<< integral -< yVel
 
       xVel <- accumHold (v * cos theta) -< wallCollision $> negate
                                        <|> paddleCollision $> const (v * cos paddleImpactTheta)
