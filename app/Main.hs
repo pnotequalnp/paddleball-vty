@@ -5,7 +5,8 @@ import Data.Functor (($>))
 import FRP.Yampa
 import FRP.Yampa.Vty (Command (..), runVty)
 import Graphics.Vty qualified as Vty
-import System.Random
+import System.Random (randomRIO)
+import Control.Applicative ((<|>))
 
 main :: IO ()
 main = do
@@ -30,25 +31,29 @@ paddleBall theta v = proc inp -> do
         _ -> NoEvent
 
   rec let board = Board { ball = (ballX, ballY), paddle = (paddleL, paddleR) }
-          (paddleHit, image) = render dims board
+          paddleImpactTheta = paddleImpactAngle $ (ballX - paddleL)  / (paddleR - paddleL)
 
       ballX <- (+ 0.2) ^<< integral -< xVel
       ballY <- (+ 0.2) ^<< integral -< yVel
 
-      xVel <- accumHold (v * cos theta) -< xCollision $> negate
-      yVel <- accumHold (v * sin theta) -< yCollision $> negate
+      xVel <- accumHold (v * cos theta) -< wallCollision $> negate
+                                       <|> paddleCollision $> const (v * cos paddleImpactTheta)
+      yVel <- accumHold (v * sin theta) -< ceilingCollision $> negate
+                                       <|> paddleCollision $> const (v * sin paddleImpactTheta)
 
       paddleL <- accumHoldBy (+) 0.4 -< move
       paddleR <- accumHoldBy (+) 0.6 -< move
 
-      hit <- edge -< paddleHit
+      hit <- edge -< ballX >= paddleL && ballX <= paddleR && ballY >= 0.95
 
-      xCollision <- edge -< ballX >= 1 || ballX <= 0
-      yCollision <- edge -< ballY <= 0 || isEvent hit
+      wallCollision <- edge -< ballX >= 1 || ballX <= 0
+      ceilingCollision <- edge -< ballY <= 0
+      paddleCollision <- edge -< isEvent hit
 
   let miss = ballY >= 1
       terminate = guard miss $> Terminate
       display = guard (not miss) $> image
+      image = render dims board
 
   returnA -< (display, terminate)
 
@@ -58,15 +63,16 @@ ballAttr = Vty.withForeColor Vty.defAttr Vty.red
 paddleAttr :: Vty.Attr
 paddleAttr = Vty.defAttr
 
-render :: (Int, Int) -> Board -> (Bool, Vty.Picture)
-render (height, width) Board {ball = (x, y), paddle = (l, r)} =
-  (hit, Vty.picForLayers [ballImage, paddleImage])
+paddleImpactAngle :: Float -> Float
+paddleImpactAngle x = (0.8 * (x - 0.5) + 1.5) * pi
+
+render :: (Int, Int) -> Board -> Vty.Picture
+render (height, width) Board {ball = (x, y), paddle = (l, r)} = Vty.picForLayers [ballImage, paddleImage]
   where
     ballX = round (fromIntegral width * x)
     ballY = round (fromIntegral height * y)
     ballImage = Vty.translate ballX ballY (Vty.char ballAttr '⬤')
     paddleL = round (fromIntegral width * l)
     paddleR = round (fromIntegral width * r)
-    paddleHeight = floor @Double (fromIntegral height * 0.95)
+    paddleHeight = ceiling @Double (fromIntegral height * 0.95)
     paddleImage = Vty.translate paddleL paddleHeight (Vty.charFill paddleAttr '█' (paddleR - paddleL) 1)
-    hit = ballY >= paddleHeight && ballX >= paddleL && ballX <= paddleR
