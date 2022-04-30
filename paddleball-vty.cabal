@@ -1,6 +1,6 @@
 cabal-version: 3.0
 name:          paddleball-vty
-version:       0.1.0.1
+version:       0.1.0.2
 license:       ISC
 license-file:  LICENSE
 copyright:     Kevin Mullins 2022
@@ -33,4 +33,4 @@ executable paddleball-vty
         random ^>=1.2,
         vty ^>=5.33,
         Yampa ^>=0.13.3,
-        yampa-vty ^>=0.1
+        yampa-vty ^>=0.2

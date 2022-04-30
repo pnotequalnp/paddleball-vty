@@ -73,11 +73,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1651264072,
-        "narHash": "sha256-NZkFl0jcpdGefC2f1RODAeL/YpAM6H1IMH0uVFzMZ14=",
+        "lastModified": 1651279054,
+        "narHash": "sha256-mOzuGYxCeUSb2FIZwexlYjnOnIOY3pAYMiY3VPoGSuk=",
         "owner": "pnotequalnp",
         "repo": "yampa-vty",
-        "rev": "b7f6893170371bcc5baf14980c06aa2dd5eb574a",
+        "rev": "b236801015b50616b1de8680704eed67b5686d6f",
         "type": "github"
       },
       "original": {

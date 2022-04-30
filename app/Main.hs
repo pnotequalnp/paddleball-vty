@@ -11,7 +11,7 @@ main :: IO ()
 main = do
   vty <- Vty.standardIOConfig >>= Vty.mkVty
   theta <- randomRIO (4 * pi / 3, 5 * pi / 3)
-  runVty vty (paddleBall theta 0.3)
+  runVty vty 60 (paddleBall theta 0.3)
 
 data Board = Board
   { ball :: !(Float, Float)
